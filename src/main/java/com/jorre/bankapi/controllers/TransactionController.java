@@ -1,8 +1,10 @@
 package com.jorre.bankapi.controllers;
 
 import com.jorre.bankapi.models.Transaction;
+import com.jorre.bankapi.models.forms.TransactionForm;
 import com.jorre.bankapi.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +22,11 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping
-    public ResponseEntity<Transaction> performTransaction(@RequestBody Long sourceAccountId,
-                                                         @RequestBody Long destinationAccountId,
-                                                         @RequestBody double amount) {
-        return ResponseEntity.ok(transactionService.performTransaction(sourceAccountId, destinationAccountId, amount));
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Transaction> performTransaction(@RequestBody TransactionForm form) {
+        return ResponseEntity.ok(transactionService.performTransaction(
+                form.getSourceAccountName(),
+                form.getDestinationAccountName(),
+                form.getAmount()));
     }
 }

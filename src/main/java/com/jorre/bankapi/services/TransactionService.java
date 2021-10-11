@@ -26,11 +26,13 @@ public class TransactionService {
     }
 
     @Transactional
-    public Transaction performTransaction(Long sourceAccountId, Long destinationAccountId, double amount) {
-        Transaction transaction = new Transaction(amount);
+    public Transaction performTransaction(String sourceAccountName, String destinationAccountName, double amount) {
+        Transaction transaction = new Transaction();
+        transaction.setCashAmount(amount);
+        transaction.setRegisteredTime(Instant.now().toEpochMilli());
         try {
-            Account sourceAccount = accountRepository.getById(sourceAccountId);
-            Account destinationAccount = accountRepository.getById(destinationAccountId);
+            Account sourceAccount = accountRepository.findByName(sourceAccountName).orElseThrow(EntityNotFoundException::new);
+            Account destinationAccount = accountRepository.findByName(destinationAccountName).orElseThrow(EntityNotFoundException::new);
             transaction.setSourceAccount(sourceAccount);
             transaction.setDestinationAccount(destinationAccount);
             destinationAccount.addCash(amount);

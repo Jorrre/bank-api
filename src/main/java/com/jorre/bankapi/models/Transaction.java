@@ -20,11 +20,6 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Double amount) {
-        this.cashAmount = amount;
-        this.registeredTime = Instant.now().toEpochMilli();
-    }
-
     public Transaction(Long registeredTime, Long executedTime, Double cashAmount, Account sourceAccount,
                        Account destinationAccount) {
         this.registeredTime = registeredTime;
@@ -36,6 +31,10 @@ public class Transaction {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getRegisteredTime() {
