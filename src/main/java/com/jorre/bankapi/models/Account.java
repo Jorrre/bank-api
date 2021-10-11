@@ -16,8 +16,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String name, Double availableCash) {
-        this.id = id;
+    public Account(String name, Double availableCash) {
         this.name = name;
         this.availableCash = availableCash;
     }

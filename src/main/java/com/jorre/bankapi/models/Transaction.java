@@ -25,9 +25,8 @@ public class Transaction {
         this.registeredTime = Instant.now().toEpochMilli();
     }
 
-    public Transaction(Long id, Long registeredTime, Long executedTime, Double cashAmount, Account sourceAccount,
+    public Transaction(Long registeredTime, Long executedTime, Double cashAmount, Account sourceAccount,
                        Account destinationAccount) {
-        this.id = id;
         this.registeredTime = registeredTime;
         this.executedTime = executedTime;
         this.cashAmount = cashAmount;
