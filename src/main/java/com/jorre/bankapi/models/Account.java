@@ -34,7 +34,7 @@ public class Account {
         return availableCash;
     }
 
-    public void setAvailableCash(Double amount) {
+    private void setAvailableCash(Double amount) {
         this.availableCash = amount;
     }
 
