@@ -7,42 +7,46 @@ import javax.persistence.Id;
 @Entity
 public class Account {
 
-    @GeneratedValue
     @Id
-    private long id;
+    @GeneratedValue
+    private Long id;
     private String name;
-    private double availableCash;
+    private Double availableCash;
 
     public Account() {
     }
 
-    public Account(String name, double availableCash) {
+    public Account(Long id, String name, Double availableCash) {
+        this.id = id;
         this.name = name;
         this.availableCash = availableCash;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getAvailableCash() {
+    public Double getAvailableCash() {
         return availableCash;
     }
 
-    public void setAvailableCash(double availableCash) {
-        this.availableCash = availableCash;
+    public void setAvailableCash(Double amount) {
+        this.availableCash = amount;
+    }
+
+    public void addCash(double amount) {
+        setAvailableCash(getAvailableCash() + amount);
+    }
+
+    public void subtractCash(double amount) {
+        if (getAvailableCash() < amount) {
+            throw new IllegalStateException("Not enough available cash to make withdrawal");
+        }
+        setAvailableCash(getAvailableCash() - amount);
     }
 
     @Override

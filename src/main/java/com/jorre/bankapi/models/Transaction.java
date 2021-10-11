@@ -1,17 +1,17 @@
 package com.jorre.bankapi.models;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 public class Transaction {
 
     @Id
-    @GeneratedValue()
-    private long id;
-    private long registeredTime;
-    private long executedTime;
-    private boolean success;
-    private double cashAmount;
+    @GeneratedValue
+    private Long id;
+    private Long registeredTime;
+    private Long executedTime;
+    private Double cashAmount;
     @OneToOne
     private Account sourceAccount;
     @OneToOne
@@ -20,53 +20,46 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(long registeredTime, long executedTime, boolean success, double cashAmount,
-                       Account sourceAccount, Account destinationAccount) {
+    public Transaction(Double amount) {
+        this.cashAmount = amount;
+        this.registeredTime = Instant.now().toEpochMilli();
+    }
+
+    public Transaction(Long id, Long registeredTime, Long executedTime, Double cashAmount, Account sourceAccount,
+                       Account destinationAccount) {
+        this.id = id;
         this.registeredTime = registeredTime;
         this.executedTime = executedTime;
-        this.success = success;
         this.cashAmount = cashAmount;
         this.sourceAccount = sourceAccount;
         this.destinationAccount = destinationAccount;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getRegisteredTime() {
+    public Long getRegisteredTime() {
         return registeredTime;
     }
 
-    public void setRegisteredTime(long registeredTime) {
+    public void setRegisteredTime(Long registeredTime) {
         this.registeredTime = registeredTime;
     }
 
-    public long getExecutedTime() {
+    public Long getExecutedTime() {
         return executedTime;
     }
 
-    public void setExecutedTime(long executedTime) {
+    public void setExecutedTime(Long executedTime) {
         this.executedTime = executedTime;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public double getCashAmount() {
+    public Double getCashAmount() {
         return cashAmount;
     }
 
-    public void setCashAmount(double cashAmount) {
+    public void setCashAmount(Double cashAmount) {
         this.cashAmount = cashAmount;
     }
 
@@ -92,10 +85,9 @@ public class Transaction {
                 "id=" + id +
                 ", registeredTime=" + registeredTime +
                 ", executedTime=" + executedTime +
-                ", success=" + success +
                 ", cashAmount=" + cashAmount +
-                ", sourceAccount=" + sourceAccount +
-                ", destinationAccount=" + destinationAccount +
+                ", sourceAccount=" + sourceAccount.getId() +
+                ", destinationAccount=" + destinationAccount.getId() +
                 '}';
     }
 
