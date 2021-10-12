@@ -9,7 +9,7 @@ import java.util.Optional;
  * JPA repository related to Accounts
  */
 public interface AccountRepository extends JpaRepository<Account, Long> {
-
+    
     /**
      * Query for fetching an Account based on the accounts name. The name has a
      * unique constraint guaranteeing an unambiguous response.

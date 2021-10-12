@@ -1,12 +1,18 @@
 package com.jorre.bankapi.models.forms;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * POJO reflecting the RequestBody of a POST request to /api/transactions.
  */
 public class TransactionForm {
 
+    @NotBlank
     private String sourceAccountName;
+    @NotBlank
     private String destinationAccountName;
+    @NotNull
     private Double amount;
 
     public TransactionForm() {
