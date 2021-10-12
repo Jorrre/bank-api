@@ -31,19 +31,20 @@ public class TransactionController {
     /**
      * Handles a transaction between two Accounts.
      *
-     * @param form user input from the request body, including source account,
-     *             destination account and amount.
+     * @param transactionRequestBody user input from the request body, including
+     *                               source account, destination account and
+     *                               amount.
      * @return the successful Transaction object if the transaction is valid
      * with status code 200, or status code 400 if an invalid Account is
      * submitted, if the source account has insufficient funds or if the request
      * itself is invalid .
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Transaction> performTransaction(@Valid @RequestBody TransactionRequestBody form) {
+    public ResponseEntity<Transaction> performTransaction(@Valid @RequestBody TransactionRequestBody transactionRequestBody) {
         return ResponseEntity.ok(transactionService.performTransaction(
-                form.getSourceAccountName(),
-                form.getDestinationAccountName(),
-                form.getAmount()));
+                transactionRequestBody.getSourceAccountName(),
+                transactionRequestBody.getDestinationAccountName(),
+                transactionRequestBody.getAmount()));
     }
 
 }

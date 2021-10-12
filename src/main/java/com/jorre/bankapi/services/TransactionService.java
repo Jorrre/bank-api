@@ -35,8 +35,7 @@ public class TransactionService {
      * stores this and the updated accounts in the db. Annotated with
      * transactional to maintain ensure database integrity.
      * <p>
-     * Throws a 400 status code exception if the specified can't be found or if
-     * the source account has insufficient funds.
+     * Throws a 400 status code exception if the data is invalid
      *
      * @param sourceAccountName      account to transfer from
      * @param destinationAccountName account to transfer to
@@ -47,6 +46,9 @@ public class TransactionService {
     public Transaction performTransaction(String sourceAccountName,
                                           String destinationAccountName,
                                           double amount) {
+        if (amount <= 0)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Amount must be greater than zero");
         Transaction transaction = new Transaction();
         transaction.setCashAmount(amount);
         transaction.setRegisteredTime(Instant.now().toEpochMilli());
@@ -73,8 +75,8 @@ public class TransactionService {
 
             return transactionRepository.save(transaction);
         } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "At " +
-                    "least one of the accounts doesn't exist");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "At least one of the accounts doesn't exist");
         } catch (IllegalStateException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     e.getMessage());
