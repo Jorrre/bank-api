@@ -14,6 +14,11 @@ public class BankApiApplication {
         SpringApplication.run(BankApiApplication.class, args);
     }
 
+    /**
+     * Adds two sample accounts to the db upon starting the application.
+     * @param accountRepository JPA repository to save samples to db
+     * @return the command to be run
+     */
     @Bean
     CommandLineRunner addSampleAccounts(AccountRepository accountRepository) {
         return args -> {

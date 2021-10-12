@@ -1,15 +1,21 @@
 package com.jorre.bankapi.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * JPA entity reflecting the Account model in the db. Contains basic information
+ * about a bank account.
+ */
 @Entity
 public class Account {
 
     @Id
     @GeneratedValue
     private Long id;
+    @Column(unique = true)
     private String name;
     private Double availableCash;
 
@@ -23,6 +29,10 @@ public class Account {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -41,10 +51,19 @@ public class Account {
         this.availableCash = amount;
     }
 
+    /**
+     * Convenience method for adding funds to this entity's cashAmount.
+     * @param amount amount to be added
+     */
     public void addCash(double amount) {
         setAvailableCash(getAvailableCash() + amount);
     }
 
+    /**
+     * Subtracts the specified amount from this entity's cashAmount.
+     * Throws IllegalStateException if the account has insufficient funds.
+     * @param amount amount to subtract
+     */
     public void subtractCash(double amount) {
         if (getAvailableCash() < amount) {
             throw new IllegalStateException("Not enough available cash to make withdrawal");

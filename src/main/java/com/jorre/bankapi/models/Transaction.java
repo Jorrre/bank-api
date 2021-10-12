@@ -1,8 +1,11 @@
 package com.jorre.bankapi.models;
 
 import javax.persistence.*;
-import java.time.Instant;
 
+/**
+ * JPA entity reflecting the Transaction model stored in the db.
+ * Contains the properties of a successful transaction.
+ */
 @Entity
 public class Transaction {
 
@@ -18,15 +21,6 @@ public class Transaction {
     private Account destinationAccount;
 
     public Transaction() {
-    }
-
-    public Transaction(Long registeredTime, Long executedTime, Double cashAmount, Account sourceAccount,
-                       Account destinationAccount) {
-        this.registeredTime = registeredTime;
-        this.executedTime = executedTime;
-        this.cashAmount = cashAmount;
-        this.sourceAccount = sourceAccount;
-        this.destinationAccount = destinationAccount;
     }
 
     public Long getId() {

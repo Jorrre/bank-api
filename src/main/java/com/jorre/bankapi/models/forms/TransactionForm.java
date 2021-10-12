@@ -1,5 +1,8 @@
 package com.jorre.bankapi.models.forms;
 
+/**
+ * POJO reflecting the RequestBody of a POST request to /api/transactions.
+ */
 public class TransactionForm {
     private String sourceAccountName;
     private String destinationAccountName;

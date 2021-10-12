@@ -13,6 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
 
+/**
+ * Service methods for transaction related operations
+ */
 @Service
 public class TransactionService {
 
@@ -25,6 +28,20 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    /**
+     * Performs a transaction by fetching the relevant accounts from the db,
+     * creating a transaction object reflecting the transaction properties and
+     * stores this and the updated accounts in the db. Annotated with transactional
+     * to maintain ensure database integrity.
+     *
+     * Throws a 400 status code exception if the specified can't be found or if
+     * the source account has insufficient funds.
+     *
+     * @param sourceAccountName account to transfer from
+     * @param destinationAccountName account to transfer to
+     * @param amount how much to be transferred
+     * @return the Transaction object reflecting this transactions
+     */
     @Transactional
     public Transaction performTransaction(String sourceAccountName, String destinationAccountName, double amount) {
         Transaction transaction = new Transaction();

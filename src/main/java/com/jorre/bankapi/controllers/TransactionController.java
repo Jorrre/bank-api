@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for handling requests related to transactions.
+ * Includes handler method for handling a transaction from one Account to another.
+ */
 @RestController
 @RequestMapping(path = "api/transactions")
 public class TransactionController {
@@ -22,6 +26,14 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
+    /**
+     * Handles a transaction between two Accounts.
+     * @param form user input from the request body, including source account,
+     *             destination account and amount.
+     * @return the successful Transaction object if the transaction is valid
+     * with status code 200, or status code 400 if an invalid Account is
+     * submitted or if the source account has insufficient funds.
+     */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Transaction> performTransaction(@RequestBody TransactionForm form) {
         return ResponseEntity.ok(transactionService.performTransaction(
