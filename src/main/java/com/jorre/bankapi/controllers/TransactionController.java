@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for handling requests related to transactions.
- * Includes handler method for handling a transaction from one Account to another.
+ * Controller for handling requests related to transactions. Includes handler
+ * method for handling a transaction from one Account to another.
  */
 @RestController
 @RequestMapping(path = "api/transactions")
@@ -28,6 +28,7 @@ public class TransactionController {
 
     /**
      * Handles a transaction between two Accounts.
+     *
      * @param form user input from the request body, including source account,
      *             destination account and amount.
      * @return the successful Transaction object if the transaction is valid
@@ -41,4 +42,5 @@ public class TransactionController {
                 form.getDestinationAccountName(),
                 form.getAmount()));
     }
+
 }

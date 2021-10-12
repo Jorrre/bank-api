@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 /**
  * JPA entity reflecting the Account model in the db. Contains basic information
@@ -52,23 +53,31 @@ public class Account {
     }
 
     /**
-     * Convenience method for adding funds to this entity's cashAmount.
+     * Convenience method for adding funds to this entity's cashAmount. Uses
+     * BigDecimal to avoid rounding errors.
+     *
      * @param amount amount to be added
      */
     public void addCash(double amount) {
-        setAvailableCash(getAvailableCash() + amount);
+        setAvailableCash(BigDecimal.valueOf(getAvailableCash())
+                .add(BigDecimal.valueOf(amount))
+                .doubleValue());
     }
 
     /**
-     * Subtracts the specified amount from this entity's cashAmount.
-     * Throws IllegalStateException if the account has insufficient funds.
+     * Subtracts the specified amount from this entity's cashAmount. Uses
+     * BigDecimal to avoid rounding errors. Throws IllegalStateException if the
+     * account has insufficient funds.
+     *
      * @param amount amount to subtract
      */
     public void subtractCash(double amount) {
         if (getAvailableCash() < amount) {
-            throw new IllegalStateException("Not enough available cash to make withdrawal");
+            throw new IllegalStateException("Insufficient funds");
         }
-        setAvailableCash(getAvailableCash() - amount);
+        setAvailableCash(BigDecimal.valueOf(getAvailableCash())
+                .subtract(BigDecimal.valueOf(amount))
+                .doubleValue());
     }
 
     @Override

@@ -23,7 +23,8 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Autowired
-    public TransactionService(AccountRepository accountRepository, TransactionRepository transactionRepository) {
+    public TransactionService(AccountRepository accountRepository,
+                              TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
     }
@@ -31,37 +32,52 @@ public class TransactionService {
     /**
      * Performs a transaction by fetching the relevant accounts from the db,
      * creating a transaction object reflecting the transaction properties and
-     * stores this and the updated accounts in the db. Annotated with transactional
-     * to maintain ensure database integrity.
-     *
+     * stores this and the updated accounts in the db. Annotated with
+     * transactional to maintain ensure database integrity.
+     * <p>
      * Throws a 400 status code exception if the specified can't be found or if
      * the source account has insufficient funds.
      *
-     * @param sourceAccountName account to transfer from
+     * @param sourceAccountName      account to transfer from
      * @param destinationAccountName account to transfer to
-     * @param amount how much to be transferred
+     * @param amount                 how much to be transferred
      * @return the Transaction object reflecting this transactions
      */
     @Transactional
-    public Transaction performTransaction(String sourceAccountName, String destinationAccountName, double amount) {
+    public Transaction performTransaction(String sourceAccountName,
+                                          String destinationAccountName,
+                                          double amount) {
         Transaction transaction = new Transaction();
         transaction.setCashAmount(amount);
         transaction.setRegisteredTime(Instant.now().toEpochMilli());
         try {
-            Account sourceAccount = accountRepository.findByName(sourceAccountName).orElseThrow(EntityNotFoundException::new);
-            Account destinationAccount = accountRepository.findByName(destinationAccountName).orElseThrow(EntityNotFoundException::new);
+            Account sourceAccount =
+                    accountRepository.findByName(sourceAccountName).orElseThrow(EntityNotFoundException::new);
+            Account destinationAccount =
+                    accountRepository.findByName(destinationAccountName).orElseThrow(EntityNotFoundException::new);
+            if (sourceAccount.equals(destinationAccount))
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Cannot have the same account as source and " +
+                                "destination");
+
             transaction.setSourceAccount(sourceAccount);
             transaction.setDestinationAccount(destinationAccount);
+
             destinationAccount.addCash(amount);
             sourceAccount.subtractCash(amount);
+
             accountRepository.save(sourceAccount);
             accountRepository.save(destinationAccount);
+
             transaction.setExecutedTime(Instant.now().toEpochMilli());
+
             return transactionRepository.save(transaction);
         } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "At least one of the accounts doesn't exist");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "At " +
+                    "least one of the accounts doesn't exist");
         } catch (IllegalStateException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Source account does not have sufficient cash");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    e.getMessage());
         }
 
     }

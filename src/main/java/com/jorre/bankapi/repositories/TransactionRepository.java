@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * JPA repository related to transactions.
  */
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransactionRepository extends JpaRepository<Transaction,
+        Long> {
 
 }

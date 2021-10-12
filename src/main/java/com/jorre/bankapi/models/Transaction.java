@@ -1,10 +1,13 @@
 package com.jorre.bankapi.models;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
- * JPA entity reflecting the Transaction model stored in the db.
- * Contains the properties of a successful transaction.
+ * JPA entity reflecting the Transaction model stored in the db. Contains the
+ * properties of a successful transaction.
  */
 @Entity
 public class Transaction {

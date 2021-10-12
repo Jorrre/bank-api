@@ -16,6 +16,7 @@ public class BankApiApplication {
 
     /**
      * Adds two sample accounts to the db upon starting the application.
+     *
      * @param accountRepository JPA repository to save samples to db
      * @return the command to be run
      */
@@ -28,4 +29,5 @@ public class BankApiApplication {
             accountRepository.save(acc2);
         };
     }
+
 }
