@@ -1,12 +1,13 @@
-package com.jorre.bankapi.models.forms;
+package com.jorre.bankapi.controllers.requestBodies;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * POJO reflecting the RequestBody of a POST request to /api/transactions.
+ * POJO reflecting the RequestBody of the transaction handler method in
+ * TransferController
  */
-public class TransactionForm {
+public class TransactionRequestBody {
 
     @NotBlank
     private String sourceAccountName;
@@ -15,7 +16,7 @@ public class TransactionForm {
     @NotNull
     private Double amount;
 
-    public TransactionForm() {
+    public TransactionRequestBody() {
     }
 
     public String getSourceAccountName() {

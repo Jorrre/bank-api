@@ -1,7 +1,7 @@
 package com.jorre.bankapi.controllers;
 
+import com.jorre.bankapi.controllers.requestBodies.TransactionRequestBody;
 import com.jorre.bankapi.models.Transaction;
-import com.jorre.bankapi.models.forms.TransactionForm;
 import com.jorre.bankapi.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
  * method for handling a transaction from one Account to another.
  */
 @RestController
-@RequestMapping(path = "api/transactions")
+@RequestMapping(path = "api/account/transfer")
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -39,7 +39,7 @@ public class TransactionController {
      * itself is invalid .
      */
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Transaction> performTransaction(@Valid @RequestBody TransactionForm form) {
+    public ResponseEntity<Transaction> performTransaction(@Valid @RequestBody TransactionRequestBody form) {
         return ResponseEntity.ok(transactionService.performTransaction(
                 form.getSourceAccountName(),
                 form.getDestinationAccountName(),
